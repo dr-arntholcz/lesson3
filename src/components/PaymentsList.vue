@@ -46,11 +46,11 @@ export default {
     turnPages() {},
   },
   computed: {
-    //   slicer(items) {
-    //   if (items.length !== 0) {
-    //     // items/maxPaymentsView;
-    //     for (i = 0; i < 10; i++) {}
-    //   }
+    //  slicer(items) {
+    // if (items.length !== 0) {
+    //  // items/maxPaymentsView;
+    //  for (i = 0; i < 10; i++) {}
+    //  }
     // },
   },
 };
