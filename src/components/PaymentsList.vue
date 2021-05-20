@@ -75,34 +75,27 @@ export default {
   },
   computed: {
     ...mapGetters(["getPaymentsList"]),
-    //  slicer(items) {
-    // if (items.length !== 0) {
-    //  // items/maxPaymentsView;
-    //
-    //     }
-    // },
     paymentsListView() {
       let data = [];
       if (this.getPaymentsList.length !== 0) {
         let arr = this.getPaymentsList,
-          arrLength = this.getPaymentsList.length,
           arrPosition =
             this.currentNamberPage * this.maxPaymentsView -
-            this.maxPaymentsView;
-        for (let i = 0; i < this.maxPaymentsView && i < arrLength; i++) {
+            this.maxPaymentsView,
+          max = 0;
+        if (
+          this.currentNamberPage === this.getMaxPage &&
+          parseInt(this.getPaymentsList.length % this.maxPaymentsView) !== 0
+        ) {
+          max = parseInt(this.getPaymentsList.length % this.maxPaymentsView);
+        } else {
+          max = this.maxPaymentsView;
+        }
+        for (let i = 0; i < max; i++) {
           data[i] = arr[arrPosition];
           arrPosition++;
         }
-        //////////////////////////////////////////////////
-        // console.log(this.getPaymentsList.length / this.maxPaymentsView);
-        // console.log(
-        //   parseInt(this.getPaymentsList.length / this.maxPaymentsView)
-        // );
-        // console.log(
-        //   parseInt(this.getPaymentsList.length % this.maxPaymentsView)
-        // );
       }
-      console.log("this.getMaxPage  " + this.getMaxPage);
       return data;
     },
     getMaxPage() {
