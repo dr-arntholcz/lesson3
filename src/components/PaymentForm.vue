@@ -73,13 +73,15 @@ export default {
   methods: {
     ...mapMutations(["setPaymentsListData", "addPaymentsListData"]),
     save() {
-      const { date, category, price } = this;
-      // this.$emit("add", { date, category, price });
-      this.addPaymentsListData({ date, category, price });
-      this.$parent.newCoasts = !this.$parent.newCoasts;
-      this.date = 0;
-      this.category = 0;
-      this.price = 0;
+      if (this.date !== "" && this.category !== "" && this.price !== 0) {
+        const { date, category, price } = this;
+        // this.$emit("add", { date, category, price });
+        this.addPaymentsListData({ date, category, price });
+        this.$parent.newCoasts = !this.$parent.newCoasts;
+        this.date = 0;
+        this.category = 0;
+        this.price = 0;
+      } else alert("Заполни все поля!!!");
     },
   },
 
