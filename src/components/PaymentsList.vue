@@ -12,8 +12,9 @@
         <!-- <tr
           v-for="(item, index) in this.$store.getters.getPaymentsList"
           :key="index"
-        > -->
-        <tr v-for="(item, index) in this.getPaymentsList" :key="index">
+        > 
+        <tr v-for="(item, index) in this.getPaymentsList" :key="index">-->
+        <tr v-for="(item, index) in this.paymentsListView" :key="index">
           <td class="cell">{{ index + 1 }}</td>
           <td class="cell dateDate">{{ item.date }}</td>
           <td class="cell select">{{ item.category }}</td>
@@ -21,11 +22,15 @@
         </tr>
       </table>
       <div class="pagination">
-        <button class="buttonPagin" @click="turnPages">&lt;&lt;</button>
-        <button class="buttonPagin" @click="turnPages">&lt;--</button>
-        <div class="pageNamber">{{ currentNamberPage + 1 }}</div>
-        <button class="buttonPagin" @click="turnPages">--&gt;</button>
-        <button class="buttonPagin" @click="turnPages">&gt;&gt;</button>
+        <button class="buttonPagin" @click="turnPages('toStart')">
+          &lt;&lt;
+        </button>
+        <button class="buttonPagin" @click="turnPages('-')">&lt;--</button>
+        <div class="pageNamber">{{ this.currentNamberPage }}</div>
+        <button class="buttonPagin" @click="turnPages('+')">--&gt;</button>
+        <button class="buttonPagin" @click="turnPages('toEnd')">
+          &gt;&gt;
+        </button>
       </div>
     </div>
   </div>
@@ -37,24 +42,52 @@ export default {
   data() {
     return {
       pageCounter: 0,
-      currentNamberPage: 0,
-      maxPaymentsView: 5,
+      currentNamberPage: 1,
+      maxPaymentsView: 3,
       pageList: [],
     };
   },
 
   methods: {
     ...mapMutations(["setPaymentsListData"]),
-    turnPages() {},
+    turnPages(arg) {
+      switch (arg) {
+        case "toStart":
+          this.currentNamberPage = 1;
+          break;
+        case "toEnd":
+          this.currentNamberPage = 10;
+          break;
+        case "-":
+          this.currentNamberPage -= 1;
+          break;
+        case "+":
+          this.currentNamberPage += 1;
+          break;
+        default:
+          break;
+      }
+    },
   },
   computed: {
     ...mapGetters(["getPaymentsList"]),
     //  slicer(items) {
     // if (items.length !== 0) {
     //  // items/maxPaymentsView;
-    //  for (i = 0; i < 10; i++) {}
+    //
     //     }
     // },
+    paymentsListView() {
+      let arr = this.getPaymentsList,
+        arrLength = this.getPaymentsList.length,
+        data = [];
+      if (arrLength !== 0) {
+        for (let i = 0; i < this.maxPaymentsView && i < arrLength; i++) {
+          data[i] = arr[i];
+        }
+      }
+      return data;
+    },
   },
   mounted() {
     ////////////////////////////////////////////////////
