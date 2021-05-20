@@ -8,7 +8,11 @@
           <td class="cell select"><b>Category</b></td>
           <td class="cell price"><b>Price</b></td>
         </tr>
-        <tr v-for="(item, index) in items" :key="index">
+        <!-- <tr v-for="(item, index) in items" :key="index"> -->
+        <tr
+          v-for="(item, index) in this.$store.state.paymentsList"
+          :key="index"
+        >
           <td class="cell">{{ index + 1 }}</td>
           <td class="cell dateDate">{{ item.date }}</td>
           <td class="cell select">{{ item.category }}</td>
