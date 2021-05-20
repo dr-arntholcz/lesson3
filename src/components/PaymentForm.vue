@@ -71,10 +71,12 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["setPaymentsListData"]),
+    ...mapMutations(["setPaymentsListData", "addPaymentsListData"]),
     save() {
       const { date, category, price } = this;
-      this.$emit("add", { date, category, price });
+      // this.$emit("add", { date, category, price });
+      this.addPaymentsListData({ date, category, price });
+      this.$parent.newCoasts = !this.$parent.newCoasts;
       this.date = 0;
       this.category = 0;
       this.price = 0;

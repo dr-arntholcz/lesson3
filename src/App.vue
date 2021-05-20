@@ -41,10 +41,10 @@ export default {
   },
   methods: {
     ...mapActions(["fetchData"]),
-    onDataAdded(data) {
-      this.paymentsList.push(data);
-      this.newCoasts = !this.newCoasts;
-    },
+    // onDataAdded(data) {
+    //   this.paymentsList.push(data);
+    //   this.newCoasts = !this.newCoasts;
+    // },
   },
   mounted() {},
 };
