@@ -9,7 +9,7 @@
           <td class="cell price"><b>Price</b></td>
         </tr>
         <tr>
-          <td class="cell">{{ items.length + 1 }}</td>
+          <td class="cell">{{ this.getPaymentsList.length + 1 }}</td>
 
           <td class="cell dateDate">
             <input
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -68,17 +69,24 @@ export default {
       price: 0,
     };
   },
-  props: {
-    items: Array,
-  },
+
   methods: {
+    ...mapMutations(["setPaymentsListData", "addPaymentsListData"]),
     save() {
-      const { date, category, price } = this;
-      this.$emit("add", { date, category, price });
-      this.date = 0;
-      this.category = 0;
-      this.price = 0;
+      if (this.date !== "" && this.category !== "" && this.price !== 0) {
+        const { date, category, price } = this;
+        // this.$emit("add", { date, category, price });
+        this.addPaymentsListData({ date, category, price });
+        this.$parent.newCoasts = !this.$parent.newCoasts;
+        this.date = 0;
+        this.category = 0;
+        this.price = 0;
+      } else alert("Заполни все поля!!!");
     },
+  },
+
+  computed: {
+    ...mapGetters(["getPaymentsList"]),
   },
 };
 </script>
