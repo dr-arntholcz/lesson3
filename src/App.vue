@@ -35,26 +35,26 @@ export default {
   data() {
     return {
       paymentsList: [
-        {
-          date: "13.05.2021",
-          category: "Education",
-          price: 123,
-        },
-        {
-          date: "12.05.2021",
-          category: "Education",
-          price: 456,
-        },
-        {
-          date: "11.05.2021",
-          category: "Education",
-          price: 789,
-        },
-        {
-          date: "10.05.2021",
-          category: "Education",
-          price: 0,
-        },
+        // {
+        //   date: "13.05.2021",
+        //   category: "Education",
+        //   price: 123,
+        // },
+        // {
+        //   date: "12.05.2021",
+        //   category: "Education",
+        //   price: 456,
+        // },
+        // {
+        //   date: "11.05.2021",
+        //   category: "Education",
+        //   price: 789,
+        // },
+        // {
+        //   date: "10.05.2021",
+        //   category: "Education",
+        //   price: 0,
+        // },
       ],
       newCoasts: false,
     };
@@ -64,6 +64,33 @@ export default {
       this.paymentsList.push(data);
       this.newCoasts = !this.newCoasts;
     },
+  },
+  mounted() {
+    ////////////////////////////////////////////////////////////////////////
+    var xhr = new XMLHttpRequest();
+    let url =
+      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+    xhr.open("GET", url, true); // true - асинхронный запрос
+    xhr.onreadystatechange = () => {
+      // xhr.readyState
+      // 0 - запрос не инициализирован
+      // 1 - загрузка данных
+      // 2 - запрос принят сервером
+      // 3 - идет обмен данными
+      // 4 - запрос выполнен
+      if (xhr.readyState !== 4) return;
+      if (xhr.status !== 200) {
+        console.log("Error " + xhr.status + " " + xhr.statusText);
+      } else {
+        // console.log("Ok! ", xhr.responseText);
+        let data = JSON.parse(xhr.responseText);
+        // console.log(data);
+        this.paymentsList = data;
+        // console.log(this.paymentsList);
+      }
+    };
+    xhr.send();
+    ///////////////////////////////////////////////////////
   },
 };
 </script>
