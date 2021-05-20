@@ -108,8 +108,8 @@ export default {
     getMaxPage() {
       let counter = 0;
       counter = parseInt(this.getPaymentsList.length / this.maxPaymentsView);
-      if (parseInt(this.getPaymentsList.length % this.maxPaymentsView !== 0)) {
-        counter += 1;
+      if (parseInt(this.getPaymentsList.length % this.maxPaymentsView) !== 0) {
+        ++counter;
       }
       return counter;
     },
