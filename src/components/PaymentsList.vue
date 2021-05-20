@@ -41,7 +41,6 @@ import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      pageCounter: 0,
       currentNamberPage: 1,
       maxPaymentsView: 3,
       pageList: [],
@@ -56,13 +55,18 @@ export default {
           this.currentNamberPage = 1;
           break;
         case "toEnd":
-          this.currentNamberPage = 10;
+          this.currentNamberPage = this.getMaxPage;
           break;
         case "-":
-          this.currentNamberPage -= 1;
+          if (this.currentNamberPage !== 1) {
+            this.currentNamberPage -= 1;
+          }
           break;
         case "+":
-          this.currentNamberPage += 1;
+          if (this.currentNamberPage !== this.getMaxPage) {
+            this.currentNamberPage += 1;
+          }
+
           break;
         default:
           break;
@@ -90,20 +94,24 @@ export default {
           arrPosition++;
         }
         //////////////////////////////////////////////////
-        console.log(this.getPaymentsList.length / this.maxPaymentsView);
-        console.log(
-          parseInt(this.getPaymentsList.length / this.maxPaymentsView)
-        );
-        console.log(
-          parseInt(this.getPaymentsList.length % this.maxPaymentsView)
-        );
+        // console.log(this.getPaymentsList.length / this.maxPaymentsView);
+        // console.log(
+        //   parseInt(this.getPaymentsList.length / this.maxPaymentsView)
+        // );
+        // console.log(
+        //   parseInt(this.getPaymentsList.length % this.maxPaymentsView)
+        // );
       }
+      console.log("this.getMaxPage  " + this.getMaxPage);
       return data;
     },
-    getCounterIteration() {
-      //return this.getPaymentsList.length / this.maxPaymentsView;
-      //return parseInt(this.getPaymentsList.length / this.maxPaymentsView);
-      return parseInt(this.getPaymentsList.length % this.maxPaymentsView);
+    getMaxPage() {
+      let counter = 0;
+      counter = parseInt(this.getPaymentsList.length / this.maxPaymentsView);
+      if (parseInt(this.getPaymentsList.length % this.maxPaymentsView !== 0)) {
+        counter += 1;
+      }
+      return counter;
     },
   }, ///////computed
   mounted() {
