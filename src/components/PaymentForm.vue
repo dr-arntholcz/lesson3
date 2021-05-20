@@ -68,9 +68,9 @@ export default {
       price: 0,
     };
   },
-  props: {
-    items: Array,
-  },
+  // props: {
+  //   items: Array,
+  // },
   methods: {
     save() {
       const { date, category, price } = this;

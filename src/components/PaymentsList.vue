@@ -36,12 +36,13 @@ export default {
       pageList: [],
     };
   },
-  props: {
-    items: Array,
-  },
+  // props: {
+  //   items: Array,
+  // },
   methods: {
-    doSomething() {
-      console.log(this.items);
+    fetchData() {
+      //////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////
     },
     turnPages() {},
   },
@@ -52,6 +53,30 @@ export default {
     //  for (i = 0; i < 10; i++) {}
     //     }
     // },
+  },
+  mounted() {
+    ////////////////////////////////////////////////////
+    var xhr = new XMLHttpRequest();
+    let url =
+      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+    xhr.open("GET", url, true); // true - асинхронный запрос
+    xhr.onreadystatechange = () => {
+      // xhr.readyState
+      // 0 - запрос не инициализирован
+      // 1 - загрузка данных
+      // 2 - запрос принят сервером
+      // 3 - идет обмен данными
+      // 4 - запрос выполнен
+      if (xhr.readyState !== 4) return;
+      if (xhr.status !== 200) {
+        console.log("Error " + xhr.status + " " + xhr.statusText);
+      } else {
+        // console.log("Ok! ", xhr.responseText);
+        // let data = JSON.parse(xhr.responseText);
+        this.$store.commit("setPaymentsListData", JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
   },
 };
 </script>
