@@ -78,17 +78,34 @@ export default {
     //     }
     // },
     paymentsListView() {
-      let arr = this.getPaymentsList,
-        arrLength = this.getPaymentsList.length,
-        data = [];
-      if (arrLength !== 0) {
+      let data = [];
+      if (this.getPaymentsList.length !== 0) {
+        let arr = this.getPaymentsList,
+          arrLength = this.getPaymentsList.length,
+          arrPosition =
+            this.currentNamberPage * this.maxPaymentsView -
+            this.maxPaymentsView;
         for (let i = 0; i < this.maxPaymentsView && i < arrLength; i++) {
-          data[i] = arr[i];
+          data[i] = arr[arrPosition];
+          arrPosition++;
         }
+        //////////////////////////////////////////////////
+        console.log(this.getPaymentsList.length / this.maxPaymentsView);
+        console.log(
+          parseInt(this.getPaymentsList.length / this.maxPaymentsView)
+        );
+        console.log(
+          parseInt(this.getPaymentsList.length % this.maxPaymentsView)
+        );
       }
       return data;
     },
-  },
+    getCounterIteration() {
+      //return this.getPaymentsList.length / this.maxPaymentsView;
+      //return parseInt(this.getPaymentsList.length / this.maxPaymentsView);
+      return parseInt(this.getPaymentsList.length % this.maxPaymentsView);
+    },
+  }, ///////computed
   mounted() {
     ////////////////////////////////////////////////////
     var xhr = new XMLHttpRequest();
