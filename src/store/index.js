@@ -12,7 +12,12 @@ export default new Vuex.Store({
             state.paymentsList = payload;
         },
     },
-    actions: {},
+    getters: {
+        getPaymentsList: state => state.paymentsList,
+    },
+    actions: {
+
+    },
     modules: {},
 
 })

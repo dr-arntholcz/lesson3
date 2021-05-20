@@ -9,10 +9,11 @@
           <td class="cell price"><b>Price</b></td>
         </tr>
         <!-- <tr v-for="(item, index) in items" :key="index"> -->
-        <tr
-          v-for="(item, index) in this.$store.state.paymentsList"
+        <!-- <tr
+          v-for="(item, index) in this.$store.getters.getPaymentsList"
           :key="index"
-        >
+        > -->
+        <tr v-for="(item, index) in this.getPaymentsList" :key="index">
           <td class="cell">{{ index + 1 }}</td>
           <td class="cell dateDate">{{ item.date }}</td>
           <td class="cell select">{{ item.category }}</td>
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -40,17 +42,13 @@ export default {
       pageList: [],
     };
   },
-  // props: {
-  //   items: Array,
-  // },
+
   methods: {
-    fetchData() {
-      //////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////
-    },
+    ...mapMutations(["setPaymentsListData"]),
     turnPages() {},
   },
   computed: {
+    ...mapGetters(["getPaymentsList"]),
     //  slicer(items) {
     // if (items.length !== 0) {
     //  // items/maxPaymentsView;
@@ -77,7 +75,9 @@ export default {
       } else {
         // console.log("Ok! ", xhr.responseText);
         // let data = JSON.parse(xhr.responseText);
-        this.$store.commit("setPaymentsListData", JSON.parse(xhr.responseText));
+        ///////////////////////////////////////////
+        // this.$store.commit("setPaymentsListData", JSON.parse(xhr.responseText));
+        this.setPaymentsListData(JSON.parse(xhr.responseText));
       }
     };
     xhr.send();
