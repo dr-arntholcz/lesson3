@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import PaymentsList from "../components/PaymentsList";
 import PaymentForm from "../components/PaymentForm";
 Vue.use(Router)
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [{
             path: '/',
@@ -27,3 +27,21 @@ export default new Router({
         // }
     ]
 })
+
+
+const titles = {
+        PaymentsList: 'My personal costs',
+        PaymentForm: 'ADD NEW COST +',
+    }
+    // router.beforeEach((to, from, next) => {
+    //   if (to.name === 'dashboard' && !userAuth) {
+    //     next({ name: 'NotFound' })
+    //   } else {
+    //     next()
+    //   }
+    // })
+
+router.afterEach((to) => {
+    document.title = titles[to.name]
+})
+export default router

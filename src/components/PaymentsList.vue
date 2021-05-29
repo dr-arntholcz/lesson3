@@ -134,6 +134,7 @@ export default {
     xhr.send();
   },
 };
+// fdhf=this.$route.params.name_var;
 </script>
 
 <style lang="scss">
