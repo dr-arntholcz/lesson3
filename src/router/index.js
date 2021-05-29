@@ -1,20 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PaymentsList from "../components/PaymentsList";
-import PaymentForm from "../components/PaymentForm";
+import PaymentsList from "../components/PaymentsList1";
+import PaymentForm from "../components/PaymentForm1";
 Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [{
             path: '/',
             name: 'PaymentsList',
-            component: PaymentsList
+            component: PaymentsList,
+            props: true
         },
-        {
-            path: '/PaymentForm/:page',
-            name: 'PaymentForm',
-            component: PaymentForm
-        },
+        // {
+        //     path: '/PaymentForm/:page',
+        //     name: 'PaymentForm',
+        //     component: PaymentForm
+        // },
         {
             path: '/PaymentForm',
             name: 'PaymentForm',

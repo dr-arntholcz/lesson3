@@ -4,21 +4,7 @@
       <header :class="[$style.header]">My personal costs</header>
       <main>
         <br /><br />
-        <div>
-          <button class="myButton" @click="newCoasts = !newCoasts">
-            <div v-if="!newCoasts">ADD NEW COST +</div>
-            <div v-else>cancel</div>
-          </button>
-          <br /><br /><br />
-          <div class="PaymentForm" v-show="newCoasts">
-            <PaymentForm />
-            <!-- :items="paymentsList" @add="onDataAdded" -->
-          </div>
-        </div>
-        <div class="PaymentsList" v-show="!newCoasts">
-          <PaymentsList />
-          <!--:items="paymentsList" -->
-        </div>
+
         <div class="router">
           <h2>router</h2>
           <div class="nav">
@@ -33,23 +19,12 @@
 </template>
 
 <script>
-import PaymentsList from "./components/PaymentsList";
-import PaymentForm from "./components/PaymentForm";
-import { mapActions } from "vuex";
 export default {
   name: "App",
-  components: {
-    PaymentsList,
-    PaymentForm,
-  },
   data() {
-    return {
-      newCoasts: false,
-    };
+    return {};
   },
-  methods: {
-    ...mapActions(["fetchData"]),
-  },
+  methods: {},
   mounted() {
     this.$router.push({ name: "PaymentsList" });
   },
