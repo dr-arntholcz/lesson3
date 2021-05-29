@@ -19,6 +19,14 @@
           <PaymentsList />
           <!--:items="paymentsList" -->
         </div>
+        <div class="router">
+          <h2>router</h2>
+          <div class="nav">
+            <router-link to="/">My personal costs</router-link> <br />
+            <router-link to="/PaymentForm">Payment Form</router-link>
+          </div>
+          <router-view></router-view>
+        </div>
       </main>
     </div>
   </div>
@@ -41,12 +49,10 @@ export default {
   },
   methods: {
     ...mapActions(["fetchData"]),
-    // onDataAdded(data) {
-    //   this.paymentsList.push(data);
-    //   this.newCoasts = !this.newCoasts;
-    // },
   },
-  mounted() {},
+  mounted() {
+    this.$router.push({ name: "PaymentsList" });
+  },
 };
 </script>
 
