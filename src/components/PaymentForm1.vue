@@ -1,6 +1,5 @@
 <template>
   <div>
-    1111111
     <div>
       <table class="table">
         <tr>
@@ -12,16 +11,17 @@
         <tr>
           <td class="cell">{{ this.getPaymentsList.length + 1 }}</td>
 
-          <td class="cell dateDate">
+          <td class="cell">
             <input
               class="inputDate dateDate"
+              id="dataNoTime"
               type="date"
               placeholder="Date"
               v-model="date"
+              value=""
             />
           </td>
           <td class="cell select">
-            <!--  contenteditable="true" -->
             <select
               class="inputDate select"
               placeholder="please choise category"
@@ -75,13 +75,17 @@ export default {
     ...mapMutations(["addPaymentsListData"]),
     save() {
       if (this.date !== "" && this.category !== "" && this.price !== 0) {
-        const { date, category, price } = this;
+        const {
+          number = this.getPaymentsList.length + 1,
+          date,
+          category,
+          price,
+        } = this;
         // this.$emit("add", { date, category, price });
-        this.addPaymentsListData({ date, category, price });
+        this.addPaymentsListData({ number, date, category, price });
         this.date = 0;
-        this.category = 0;
+        this.category = "";
         this.price = 0;
-
         this.$router.push({ name: "PaymentsList" });
       } else alert("Заполни все поля!!!");
     },
@@ -90,7 +94,40 @@ export default {
   computed: {
     ...mapGetters(["getPaymentsList"]),
   },
-  mounted() {},
+  mounted() {
+    this.date = new Date().toLocaleDateString();
+    document.getElementById("dataNoTime").textContent = this.date;
+
+    if (this.$route.params.category !== "") {
+      let str = location.pathname;
+      // let str = this.$route.params.category;
+      // this.category = this.$route.params.category;
+      // console.log(this.$route.params.category);
+      // console.log(location.pathname.slice(1));
+      // console.log(location);
+      /////////////////////////////////////////////////////
+      // console.log(location.pathname);
+      let regexp = /add/;
+      if (regexp.test(str)) {
+        // str = str.slice(str.search(regexp) + 4);
+        regexp = /payment/;
+        if (regexp.test(str)) {
+          // str = str.slice(str.search(regexp), str.search(regexp) + 7);
+          str = str.slice(str.search(regexp) + 8);
+
+          this.category = str;
+          if (location.search !== "") {
+            str = location.search;
+            regexp = /=/;
+            str = str.slice(str.search(regexp) + 1);
+            console.log(str);
+            this.price = str;
+            this.save();
+          }
+        }
+      }
+    }
+  },
 };
 </script>
 

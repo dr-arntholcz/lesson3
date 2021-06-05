@@ -6,11 +6,21 @@
         <br /><br />
 
         <div class="router">
-          <h2>router</h2>
           <div class="nav">
-            <router-link to="/">My personal costs</router-link> <br />
-            <router-link to="/PaymentForm">Payment Form</router-link>
+            <!-- <router-link to="/">My personal costs</router-link> <br />
+            <router-link to="/PaymentForm">Payment Form</router-link> -->
+            <router-link to="/" v-show="added"
+              ><button class="myButton" @click="added = false">
+                Cansel
+              </button></router-link
+            >
+            <router-link to="/PaymentForm" v-show="!added"
+              ><button class="myButton" @click="added = true">
+                ADD +
+              </button></router-link
+            >
           </div>
+          <br />
           <router-view></router-view>
         </div>
       </main>
@@ -19,14 +29,40 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      added: false,
+    };
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["setPaymentsListData"]),
+  },
   mounted() {
-    this.$router.push({ name: "PaymentsList" });
+    if (this.$route.params.category !== "") {
+      let str = location.pathname;
+      let regexp = /PaymentForm/;
+      if (regexp.test(str)) {
+        this.added = true;
+      }
+    }
+    // this.$router.push({ name: "PaymentsList" });
+    ////////////////////////////////////////////////////
+    let url =
+      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+    ////fetch/////
+    (async () => {
+      let response = await fetch(url);
+      if (response.ok) {
+        this.setPaymentsListData(await response.json());
+      } else {
+        alert("Ошибка HTTP: " + response.status);
+      }
+    })();
+    ////fetch/////
   },
 };
 </script>

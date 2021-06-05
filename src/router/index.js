@@ -11,16 +11,24 @@ const router = new Router({
             component: PaymentsList,
             props: true
         },
+
         // {
-        //     path: '/PaymentForm/:page',
+        //     path: '/PaymentForm',
         //     name: 'PaymentForm',
         //     component: PaymentForm
         // },
         {
-            path: '/PaymentForm',
+            path: '/PaymentForm*',
             name: 'PaymentForm',
-            component: PaymentForm
+            component: PaymentForm,
+            props: true
         },
+        // {
+        //             path: '/PaymentForm/:category',
+        //             name: 'PaymentForm',
+        //             component: PaymentForm,
+        //             props: true
+        //         },
         // {
         //     path: '*',
         //     name: 'NotFound',
