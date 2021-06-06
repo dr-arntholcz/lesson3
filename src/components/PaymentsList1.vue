@@ -8,14 +8,8 @@
           <td class="cell select"><b>Category</b></td>
           <td class="cell price"><b>Price</b></td>
         </tr>
-        <!-- <tr v-for="(item, index) in items" :key="index"> -->
-        <!-- <tr
-          v-for="(item, index) in this.$store.getters.getPaymentsList"
-          :key="index"
-        > 
-        <tr v-for="(item, index) in this.getPaymentsList" :key="index">-->
         <tr v-for="(item, index) in this.paymentsListView" :key="index">
-          <td class="cell">{{ index + 1 }}</td>
+          <td class="cell">{{ item.number }}</td>
           <td class="cell dateDate">{{ item.date }}</td>
           <td class="cell select">{{ item.category }}</td>
           <td class="cell price">{{ item.price }}</td>
@@ -37,7 +31,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -48,7 +42,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["setPaymentsListData"]),
     turnPages(arg) {
       switch (arg) {
         case "toStart":
@@ -108,33 +101,13 @@ export default {
     },
   }, ///////computed
   mounted() {
-    ////////////////////////////////////////////////////
-    var xhr = new XMLHttpRequest();
-    let url =
-      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
-    xhr.open("GET", url, true); // true - асинхронный запрос
-    xhr.onreadystatechange = () => {
-      // xhr.readyState
-      // 0 - запрос не инициализирован
-      // 1 - загрузка данных
-      // 2 - запрос принят сервером
-      // 3 - идет обмен данными
-      // 4 - запрос выполнен
-      if (xhr.readyState !== 4) return;
-      if (xhr.status !== 200) {
-        console.log("Error " + xhr.status + " " + xhr.statusText);
-      } else {
-        // console.log("Ok! ", xhr.responseText);
-        // let data = JSON.parse(xhr.responseText);
-        ///////////////////////////////////////////
-        // this.$store.commit("setPaymentsListData", JSON.parse(xhr.responseText));
-        this.setPaymentsListData(JSON.parse(xhr.responseText));
-      }
-    };
-    xhr.send();
+    {
+      setTimeout(() => {
+        this.currentNamberPage = this.getMaxPage;
+      }, 1000);
+    }
   },
 };
-// fdhf=this.$route.params.name_var;
 </script>
 
 <style lang="scss">

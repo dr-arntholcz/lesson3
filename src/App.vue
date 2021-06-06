@@ -4,18 +4,24 @@
       <header :class="[$style.header]">My personal costs</header>
       <main>
         <br /><br />
-        <div>
-          <button class="myButton" @click="newCoasts = !newCoasts">
-            <div v-if="!newCoasts">ADD NEW COST +</div>
-            <div v-else>cancel</div>
-          </button>
-          <br /><br /><br />
-          <div class="PaymentForm" v-show="newCoasts">
-            <PaymentForm :items="paymentsList" @add="onDataAdded" />
+
+        <div class="router">
+          <div class="nav">
+            <!-- <router-link to="/">My personal costs</router-link> <br />
+            <router-link to="/PaymentForm">Payment Form</router-link> -->
+            <router-link to="/" v-show="added"
+              ><button class="myButton" @click="added = false">
+                Cansel
+              </button></router-link
+            >
+            <router-link to="/PaymentForm" v-show="!added"
+              ><button class="myButton" @click="added = true">
+                ADD +
+              </button></router-link
+            >
           </div>
-        </div>
-        <div class="PaymentsList" v-show="!newCoasts">
-          <PaymentsList :items="paymentsList" />
+          <br />
+          <router-view></router-view>
         </div>
       </main>
     </div>
@@ -23,47 +29,40 @@
 </template>
 
 <script>
-import PaymentsList from "./components/PaymentsList";
-import PaymentForm from "./components/PaymentForm";
+import { mapMutations } from "vuex";
 
 export default {
   name: "App",
-  components: {
-    PaymentsList,
-    PaymentForm,
-  },
   data() {
     return {
-      paymentsList: [
-        {
-          date: "13.05.2021",
-          category: "Education",
-          price: 123,
-        },
-        {
-          date: "12.05.2021",
-          category: "Education",
-          price: 456,
-        },
-        {
-          date: "11.05.2021",
-          category: "Education",
-          price: 789,
-        },
-        {
-          date: "10.05.2021",
-          category: "Education",
-          price: 0,
-        },
-      ],
-      newCoasts: false,
+      added: false,
     };
   },
   methods: {
-    onDataAdded(data) {
-      this.paymentsList.push(data);
-      this.newCoasts = !this.newCoasts;
-    },
+    ...mapMutations(["setPaymentsListData"]),
+  },
+  mounted() {
+    if (this.$route.params.category !== "") {
+      let str = location.pathname;
+      let regexp = /PaymentForm/;
+      if (regexp.test(str)) {
+        this.added = true;
+      }
+    }
+    // this.$router.push({ name: "PaymentsList" });
+    ////////////////////////////////////////////////////
+    let url =
+      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+    ////fetch/////
+    (async () => {
+      let response = await fetch(url);
+      if (response.ok) {
+        this.setPaymentsListData(await response.json());
+      } else {
+        alert("Ошибка HTTP: " + response.status);
+      }
+    })();
+    ////fetch/////
   },
 };
 </script>
