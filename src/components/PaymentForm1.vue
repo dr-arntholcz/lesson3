@@ -120,7 +120,6 @@ export default {
             str = location.search;
             regexp = /=/;
             str = str.slice(str.search(regexp) + 1);
-            console.log(str);
             this.price = str;
             this.save();
           }

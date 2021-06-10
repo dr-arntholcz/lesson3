@@ -102,9 +102,9 @@ export default {
   }, ///////computed
   mounted() {
     {
-      setTimeout(() => {
-        this.currentNamberPage = this.getMaxPage;
-      }, 1000);
+      // setTimeout(() => {
+      //   this.currentNamberPage = this.getMaxPage;
+      // }, 1000);
     }
   },
 };
