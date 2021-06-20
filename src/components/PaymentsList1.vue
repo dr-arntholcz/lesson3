@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="box">
     <div>
       <table class="table">
         <tr>
@@ -8,7 +8,11 @@
           <td class="cell select"><b>Category</b></td>
           <td class="cell price"><b>Price</b></td>
         </tr>
-        <tr v-for="(item, index) in this.paymentsListView" :key="index">
+        <tr
+          @click="showPaymentForm"
+          v-for="(item, index) in this.paymentsListView"
+          :key="index"
+        >
           <td class="cell">{{ item.number }}</td>
           <td class="cell dateDate">{{ item.date }}</td>
           <td class="cell select">{{ item.category }}</td>
@@ -27,12 +31,15 @@
         </button>
       </div>
     </div>
+    <Modal class="modal" />
   </div>
 </template>
 
 <script>
+import Modal from "../components/modalwindows/Modal.vue";
 import { mapGetters } from "vuex";
 export default {
+  components: { Modal },
   data() {
     return {
       currentNamberPage: 1,
@@ -42,20 +49,31 @@ export default {
   },
 
   methods: {
+    showPaymentForm() {
+      this.$modal.show(event);
+    },
+    closePaymentForm() {
+      this.paymentsListView;
+      this.$modal.close();
+    },
     turnPages(arg) {
       switch (arg) {
         case "toStart":
+          this.closePaymentForm();
           this.currentNamberPage = 1;
           break;
         case "toEnd":
+          this.closePaymentForm();
           this.currentNamberPage = this.getMaxPage;
           break;
         case "-":
+          this.closePaymentForm();
           if (this.currentNamberPage !== 1) {
             this.currentNamberPage -= 1;
           }
           break;
         case "+":
+          this.closePaymentForm();
           if (this.currentNamberPage !== this.getMaxPage) {
             this.currentNamberPage += 1;
           }
@@ -129,5 +147,15 @@ export default {
     align-items: center;
     justify-content: center;
   }
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.modal {
+  position: absolute;
+  z-index: 10;
 }
 </style>

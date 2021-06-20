@@ -9,7 +9,7 @@
           <td class="cell price"><b>Price</b></td>
         </tr>
         <tr>
-          <td class="cell">{{ this.getPaymentsList.length + 1 }}</td>
+          <td class="cell">{{ this.index + 1 }}</td>
 
           <td class="cell">
             <input
@@ -50,7 +50,7 @@
     <br />
     <br />
 
-    <button class="myButton" @click="save">ADD +</button>
+    <button class="myButton" @click="save">{{ this.buttonCaption }}</button>
   </div>
 </template>
 
@@ -59,6 +59,8 @@ import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      type: "",
+      index: 0,
       date: "",
       categoryList: [
         "Relaxation",
@@ -69,25 +71,37 @@ export default {
       ],
       category: "",
       price: 0,
+      buttonCaption: "",
     };
   },
   methods: {
-    ...mapMutations(["addPaymentsListData"]),
+    ...mapMutations(["addPaymentsListData", "editPaymentsListData"]),
     save() {
-      if (this.date !== "" && this.category !== "" && this.price !== 0) {
-        const {
-          number = this.getPaymentsList.length + 1,
-          date,
-          category,
-          price,
-        } = this;
+      if (this.type === "add") {
+        if (this.date !== "" && this.category !== "" && this.price !== 0) {
+          const {
+            number = this.getPaymentsList.length + 1,
+            date,
+            category,
+            price,
+          } = this;
+          // this.$emit("add", { date, category, price });
+          this.addPaymentsListData({ number, date, category, price });
+          this.date = 0;
+          this.category = "";
+          this.price = 0;
+          this.$router.push({ name: "PaymentsList" });
+        } else alert("Заполни все поля!!!");
+      }
+      if (this.type === "edit") {
+        const { number = this.index, date, category, price } = this;
         // this.$emit("add", { date, category, price });
-        this.addPaymentsListData({ number, date, category, price });
+        this.editPaymentsListData({ number, date, category, price });
         this.date = 0;
         this.category = "";
         this.price = 0;
         this.$router.push({ name: "PaymentsList" });
-      } else alert("Заполни все поля!!!");
+      }
     },
   },
 
@@ -95,9 +109,6 @@ export default {
     ...mapGetters(["getPaymentsList"]),
   },
   mounted() {
-    this.date = new Date().toLocaleDateString();
-    document.getElementById("dataNoTime").textContent = this.date;
-
     if (this.$route.params.category !== "") {
       let str = location.pathname;
       // let str = this.$route.params.category;
@@ -109,6 +120,30 @@ export default {
       // console.log(location.pathname);
       let regexp = /add/;
       if (regexp.test(str)) {
+        this.date = new Date().toLocaleDateString();
+        document.getElementById("dataNoTime").textContent = this.date;
+        this.buttonCaption = "ADD +";
+        this.type = "add";
+        this.index = this.getPaymentsList.length;
+      }
+      regexp = /edit/;
+      if (regexp.test(str)) {
+        this.buttonCaption = "SAVE";
+        this.type = "edit";
+
+        regexp = /index=(\d+)/;
+        if (regexp.test(str)) {
+          this.index = +str.match(regexp)[1];
+        }
+        regexp = /date=([0-9][0-9]).([0-9][0-9]).([0-9][0-9][0-9][0-9])/;
+        if (regexp.test(str)) {
+          this.date = str.match(regexp)[0].slice(5);
+          document.getElementById("dataNoTime").textContent = this.date;
+        }
+      }
+      console.log(this.date);
+      {
+        /////////////////////////////////
         // str = str.slice(str.search(regexp) + 4);
         regexp = /payment/;
         if (regexp.test(str)) {
@@ -121,7 +156,7 @@ export default {
             regexp = /=/;
             str = str.slice(str.search(regexp) + 1);
             this.price = str;
-            this.save();
+            // this.save();
           }
         }
       }

@@ -14,7 +14,7 @@
                 Cansel
               </button></router-link
             >
-            <router-link to="/PaymentForm" v-show="!added"
+            <router-link to="/PaymentForm/add" v-show="!added"
               ><button class="myButton" @click="added = true">
                 ADD +
               </button></router-link
@@ -40,6 +40,11 @@ export default {
   },
   methods: {
     ...mapMutations(["setPaymentsListData"]),
+  },
+  updated() {
+    if (this.$route.params.category === "") {
+      this.added = false;
+    }
   },
   mounted() {
     if (this.$route.params.category !== "") {

@@ -14,6 +14,16 @@ export default new Vuex.Store({
         addPaymentsListData(state, payload) {
             state.paymentsList.push(payload);
         },
+        editPaymentsListData(state, contents) {
+            console.log(contents);
+            ++contents.number;
+            state.paymentsList[contents.number - 1] = contents;
+            console.log(contents);
+        },
+        delPaymentsListData(state, payload) {
+            // var index = this.paymentsList.findIndex(c => c.payload == payload);
+            state.paymentsList.splice(payload, 1);
+        },
     },
     getters: {
         getPaymentsList: state => state.paymentsList,
