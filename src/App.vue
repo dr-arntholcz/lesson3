@@ -7,8 +7,6 @@
 
         <div class="router">
           <div class="nav">
-            <!-- <router-link to="/">My personal costs</router-link> <br />
-            <router-link to="/PaymentForm">Payment Form</router-link> -->
             <router-link to="/" v-show="added"
               ><button class="myButton" @click="added = false">
                 Cansel
@@ -54,19 +52,22 @@ export default {
         this.added = true;
       }
     }
+    // this.$store.dispatch("loadData");
     // this.$router.push({ name: "PaymentsList" });
     ////////////////////////////////////////////////////
     let url =
       "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
     ////fetch/////
-    (async () => {
-      let response = await fetch(url);
-      if (response.ok) {
-        this.setPaymentsListData(await response.json());
-      } else {
-        alert("Ошибка HTTP: " + response.status);
-      }
-    })();
+    fetch(url)
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        this.setPaymentsListData(res);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
     ////fetch/////
   },
 };

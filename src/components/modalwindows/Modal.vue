@@ -5,19 +5,19 @@
         <div :class="[$style.overlay]"></div>
         <router-link
           :to="
-            '/PaymentForm/edit/' +
+            '/PaymentForm/edit/payment?' +
             'index=' +
             this.index +
-            'date=' +
+            '&date=' +
             this.date +
-            'payment/' +
+            '&category=' +
             this.category +
-            '?value=' +
+            '&price=' +
             this.price
           "
         >
-          <button class="myButton" @click="edit">Edit</button></router-link
-        >
+          <button class="myButton" @click="edit">Edit</button>
+        </router-link>
         <br />
         <button class="myButton" @click="remove">Remove</button>
       </div>

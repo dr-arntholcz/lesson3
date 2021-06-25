@@ -121,7 +121,6 @@ export default {
       let regexp = /add/;
       if (regexp.test(str)) {
         this.date = new Date().toLocaleDateString();
-        document.getElementById("dataNoTime").textContent = this.date;
         this.buttonCaption = "ADD +";
         this.type = "add";
         this.index = this.getPaymentsList.length;
@@ -131,15 +130,17 @@ export default {
         this.buttonCaption = "SAVE";
         this.type = "edit";
 
-        regexp = /index=(\d+)/;
-        if (regexp.test(str)) {
-          this.index = +str.match(regexp)[1];
-        }
-        regexp = /date=([0-9][0-9]).([0-9][0-9]).([0-9][0-9][0-9][0-9])/;
-        if (regexp.test(str)) {
-          this.date = str.match(regexp)[0].slice(5);
-          document.getElementById("dataNoTime").textContent = this.date;
-        }
+        // regexp = /index=(\d+)/;
+        // if (regexp.test(str)) {
+        //   this.index = +str.match(regexp)[1];
+        // }
+        this.index = +this.$route.query.index;
+        // regexp = /date=([0-9][0-9]).([0-9][0-9]).([0-9][0-9][0-9][0-9])/;
+        // if (regexp.test(str)) {
+        //   this.date = str.match(regexp)[0].slice(5);
+        //   document.getElementById("dataNoTime").textContent = this.date;
+        // }
+        this.date = this.$route.query.date;
       }
       console.log(this.date);
       {
@@ -147,17 +148,19 @@ export default {
         // str = str.slice(str.search(regexp) + 4);
         regexp = /payment/;
         if (regexp.test(str)) {
-          // str = str.slice(str.search(regexp), str.search(regexp) + 7);
-          str = str.slice(str.search(regexp) + 8);
+          // // str = str.slice(str.search(regexp), str.search(regexp) + 7);
+          // str = str.slice(str.search(regexp) + 8);
 
-          this.category = str;
-          if (location.search !== "") {
-            str = location.search;
-            regexp = /=/;
-            str = str.slice(str.search(regexp) + 1);
-            this.price = str;
-            // this.save();
-          }
+          // this.category = str;
+          // if (location.search !== "") {
+          //   str = location.search;
+          //   regexp = /=/;
+          //   str = str.slice(str.search(regexp) + 1);
+          //   this.price = str;
+          //   // this.save();
+          // }
+          this.category = this.$route.query.category;
+          this.price = +this.$route.query.price;
         }
       }
     }
