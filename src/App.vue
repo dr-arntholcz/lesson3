@@ -4,18 +4,22 @@
       <header :class="[$style.header]">My personal costs</header>
       <main>
         <br /><br />
-        <div>
-          <button class="myButton" @click="newCoasts = !newCoasts">
-            <div v-if="!newCoasts">ADD NEW COST +</div>
-            <div v-else>cancel</div>
-          </button>
-          <br /><br /><br />
-          <div class="PaymentForm" v-show="newCoasts">
-            <PaymentForm :items="paymentsList" @add="onDataAdded" />
+
+        <div class="router">
+          <div class="nav">
+            <router-link to="/" v-show="added"
+              ><button class="myButton" @click="added = false">
+                Cansel
+              </button></router-link
+            >
+            <router-link to="/PaymentForm/add" v-show="!added"
+              ><button class="myButton" @click="added = true">
+                ADD +
+              </button></router-link
+            >
           </div>
-        </div>
-        <div class="PaymentsList" v-show="!newCoasts">
-          <PaymentsList :items="paymentsList" />
+          <br />
+          <router-view></router-view>
         </div>
       </main>
     </div>
@@ -23,47 +27,48 @@
 </template>
 
 <script>
-import PaymentsList from "./components/PaymentsList";
-import PaymentForm from "./components/PaymentForm";
+import { mapMutations } from "vuex";
 
 export default {
   name: "App",
-  components: {
-    PaymentsList,
-    PaymentForm,
-  },
   data() {
     return {
-      paymentsList: [
-        {
-          date: "13.05.2021",
-          category: "Education",
-          price: 123,
-        },
-        {
-          date: "12.05.2021",
-          category: "Education",
-          price: 456,
-        },
-        {
-          date: "11.05.2021",
-          category: "Education",
-          price: 789,
-        },
-        {
-          date: "10.05.2021",
-          category: "Education",
-          price: 0,
-        },
-      ],
-      newCoasts: false,
+      added: false,
     };
   },
   methods: {
-    onDataAdded(data) {
-      this.paymentsList.push(data);
-      this.newCoasts = !this.newCoasts;
-    },
+    ...mapMutations(["setPaymentsListData"]),
+  },
+  updated() {
+    if (this.$route.params.category === "") {
+      this.added = false;
+    }
+  },
+  mounted() {
+    if (this.$route.params.category !== "") {
+      let str = location.pathname;
+      let regexp = /PaymentForm/;
+      if (regexp.test(str)) {
+        this.added = true;
+      }
+    }
+    // this.$store.dispatch("loadData");
+    // this.$router.push({ name: "PaymentsList" });
+    ////////////////////////////////////////////////////
+    let url =
+      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+    ////fetch/////
+    fetch(url)
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        this.setPaymentsListData(res);
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
+    ////fetch/////
   },
 };
 </script>
