@@ -55,15 +55,10 @@ export default {
       document.getElementById("fade").style.top =
         (event.clientY - 230).toString() + "px";
       this.target = event.currentTarget.cells;
-      console.log(this.target);
       this.index = +this.target[0].innerHTML - 1;
-      console.log(this.index);
       this.date = this.target[1].innerHTML;
-      console.log(this.date);
       this.category = this.target[2].innerHTML;
-      console.log(this.category);
       this.price = +this.target[3].innerHTML;
-      console.log(this.price);
     },
     onClose() {
       this.shown = false;

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -37,7 +37,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setPaymentsListData"]),
+    ...mapActions(["loadData"]),
   },
   updated() {
     if (this.$route.params.category === "") {
@@ -52,23 +52,8 @@ export default {
         this.added = true;
       }
     }
-    // this.$store.dispatch("loadData");
+    this.$store.dispatch("loadData");
     // this.$router.push({ name: "PaymentsList" });
-    ////////////////////////////////////////////////////
-    let url =
-      "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
-    ////fetch/////
-    fetch(url)
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        this.setPaymentsListData(res);
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
-    ////fetch/////
   },
 };
 </script>

@@ -29,22 +29,22 @@ export default new Vuex.Store({
         getPaymentsList: state => state.paymentsList,
     },
     actions: {
-        // loadData() {
-        //     let url =
-        //         "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
-        //     ////fetch/////
-        //     fetch(url)
-        //         .then((res) => {
-        //             return res.json();
-        //         })
-        //         .then((res) => {
-        //             this.setPaymentsListData(res);
-        //         })
-        //         .catch((error) => {
-        //             console.log("Error: ", error);
-        //         });
-        //     console.log("this.$store.dispatch(\"loadData\")");
-        // },
+        loadData({ commit }) {
+            let url =
+                "https://raw.githubusercontent.com/dr-arntholcz/online-store-api/master/responses/paymentsList.json";
+            ////fetch/////
+            fetch(url)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((res) => {
+                    // this.setPaymentsListData(res);
+                    commit('setPaymentsListData', res);
+                })
+                .catch((error) => {
+                    console.log("Error: ", error);
+                });
+        },
 
     },
     modules: {},

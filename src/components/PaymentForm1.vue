@@ -142,7 +142,6 @@ export default {
         // }
         this.date = this.$route.query.date;
       }
-      console.log(this.date);
       {
         /////////////////////////////////
         // str = str.slice(str.search(regexp) + 4);
