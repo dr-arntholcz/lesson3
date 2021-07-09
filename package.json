@@ -16,7 +16,9 @@
         "transform": {
             ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
             "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-        }
+        },
+        "collectCoverage": true,
+        "collectCoverageFrom": ["**/*{vue,js}", "!**/node_modules/**"]
     },
     "dependencies": {
         "7": "^0.0.1",

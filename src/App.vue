@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -37,7 +37,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loadData"]),
+    // ...mapActions(["loadData"]),
   },
   updated() {
     if (this.$route.params.category === "") {
